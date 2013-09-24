@@ -8,10 +8,19 @@
 #define MEMORY_H_
 
 #include <QWidget>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QLabel>
 
 class Memory : public QWidget {
   public:
     explicit Memory(QWidget* parent = 0);
+
+  private:
+    QLineEdit* nod;
+    QLineEdit* delay;
+    QPushButton* button;
+    QLabel* number;
 };
 
 #endif  // MEMORY_H_
