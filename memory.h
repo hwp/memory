@@ -27,6 +27,9 @@ class Memory : public QWidget {
     void start();
     void showNumber();
 
+  protected:
+    void timerEvent(QTimerEvent *e);
+
   private:
     QComboBox* nod;
     QComboBox* delay;

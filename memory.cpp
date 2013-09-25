@@ -49,7 +49,7 @@ Memory::Memory(QWidget* parent) : QWidget(parent) {
 void Memory::start() {
   n = nod->itemData(nod->currentIndex()).toInt();
   d = delay->itemData(delay->currentIndex()).toInt();
-  showNumber();
+  startTimer(d * 1000);
 }
 
 void Memory::showNumber() {
@@ -61,3 +61,8 @@ void Memory::showNumber() {
   number->setText(t);
 }
 
+void Memory::timerEvent(QTimerEvent *e)
+{
+    Q_UNUSED(e);
+    showNumber();
+}
