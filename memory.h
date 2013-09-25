@@ -38,6 +38,8 @@ class Memory : public QWidget {
 
     int n;
     int d;
+    bool started;
+    int tid;
 };
 
 #endif  // MEMORY_H_

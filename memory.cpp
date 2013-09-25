@@ -11,7 +11,8 @@
 
 #include "memory.h"
 
-Memory::Memory(QWidget* parent) : QWidget(parent) {
+Memory::Memory(QWidget* parent)
+    : QWidget(parent), started(false) {
   resize(600, 400);
   setWindowTitle("Memory Trainer");
 
@@ -47,9 +48,18 @@ Memory::Memory(QWidget* parent) : QWidget(parent) {
 }
 
 void Memory::start() {
-  n = nod->itemData(nod->currentIndex()).toInt();
-  d = delay->itemData(delay->currentIndex()).toInt();
-  startTimer(d * 1000);
+  if (!started) {
+    n = nod->itemData(nod->currentIndex()).toInt();
+    d = delay->itemData(delay->currentIndex()).toInt();
+    tid = startTimer(d * 1000);
+    timerEvent(NULL);
+    button->setText("&Stop");
+  }
+  else {
+    killTimer(tid);
+    button->setText("&Start");
+  }
+  started = !started;
 }
 
 void Memory::showNumber() {
@@ -61,8 +71,8 @@ void Memory::showNumber() {
   number->setText(t);
 }
 
-void Memory::timerEvent(QTimerEvent *e)
-{
+void Memory::timerEvent(QTimerEvent *e) {
     Q_UNUSED(e);
     showNumber();
 }
+
