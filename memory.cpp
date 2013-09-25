@@ -5,6 +5,8 @@
 // Copyright (c) 2013, All rights reserved.
 
 #include <QGridLayout>
+#include <QFont>
+#include <QApplication>
 
 #include "memory.h"
 
@@ -16,6 +18,10 @@ Memory::Memory(QWidget* parent) : QWidget(parent) {
   delay = new QLineEdit();
   button = new QPushButton("&Start", this);
   number = new QLabel("Press button to start");
+  number->setAlignment(Qt::AlignCenter);
+  QFont f;
+  f.setPointSize(48);
+  number->setFont(f);
 
   QGridLayout* grid = new QGridLayout(this);
 
@@ -27,5 +33,11 @@ Memory::Memory(QWidget* parent) : QWidget(parent) {
   grid->addWidget(number, 1, 0, 3, 5);
 
   setLayout(grid);
+
+  connect(button, SIGNAL(clicked()), qApp, SLOT(start()));
+}
+
+void Memory::start() {
+  number->setText(nod->text());
 }
 

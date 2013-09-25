@@ -21,6 +21,8 @@ class Memory : public QWidget {
     QLineEdit* delay;
     QPushButton* button;
     QLabel* number;
+
+    void start();
 };
 
 #endif  // MEMORY_H_
