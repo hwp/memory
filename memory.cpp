@@ -7,6 +7,7 @@
 #include <QGridLayout>
 #include <QFont>
 #include <QApplication>
+#include <QTextStream>
 
 #include "memory.h"
 
@@ -14,8 +15,16 @@ Memory::Memory(QWidget* parent) : QWidget(parent) {
   resize(600, 400);
   setWindowTitle("Memory Trainer");
 
-  nod = new QLineEdit();
-  delay = new QLineEdit();
+  nod = new QComboBox();
+  for (int i = MIN_NOD; i <= MAX_NOD; i++) {
+    nod->addItem(QString("%1").arg(i), i);
+  }
+
+  delay = new QComboBox();
+  for (int i = MIN_DELAY; i <= MAX_DELAY; i++) {
+    delay->addItem(QString("%1").arg(i), i);
+  }
+
   button = new QPushButton("&Start", this);
   number = new QLabel("Press button to start");
   number->setAlignment(Qt::AlignCenter);
@@ -27,17 +36,21 @@ Memory::Memory(QWidget* parent) : QWidget(parent) {
 
   grid->addWidget(new QLabel("Number of Digits:"), 0, 0);
   grid->addWidget(nod, 0, 1);
-  grid->addWidget(new QLabel("Time Delay:"), 0, 2);
+  grid->addWidget(new QLabel("Time Delay (s):"), 0, 2);
   grid->addWidget(delay, 0, 3);
   grid->addWidget(button, 0, 4);
   grid->addWidget(number, 1, 0, 3, 5);
 
   setLayout(grid);
 
-  connect(button, SIGNAL(clicked()), qApp, SLOT(start()));
+  connect(button, SIGNAL(clicked()), this, SLOT(start()));
 }
 
 void Memory::start() {
-  number->setText(nod->text());
+  number->setText(nod->currentText());
+  QTextStream out(stdout);
+  out << nod->currentText() << endl;
+
+  startTimer(1000);
 }
 

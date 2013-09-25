@@ -8,21 +8,29 @@
 #define MEMORY_H_
 
 #include <QWidget>
-#include <QLineEdit>
+#include <QComboBox>
 #include <QPushButton>
 #include <QLabel>
 
+#define MIN_NOD 4
+#define MAX_NOD 10
+#define MIN_DELAY 1
+#define MAX_DELAY 15
+
 class Memory : public QWidget {
+  Q_OBJECT
+
   public:
     explicit Memory(QWidget* parent = 0);
 
+  public slots:
+    void start();
+
   private:
-    QLineEdit* nod;
-    QLineEdit* delay;
+    QComboBox* nod;
+    QComboBox* delay;
     QPushButton* button;
     QLabel* number;
-
-    void start();
 };
 
 #endif  // MEMORY_H_
