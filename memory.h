@@ -25,12 +25,16 @@ class Memory : public QWidget {
 
   public slots:
     void start();
+    void showNumber();
 
   private:
     QComboBox* nod;
     QComboBox* delay;
     QPushButton* button;
     QLabel* number;
+
+    int n;
+    int d;
 };
 
 #endif  // MEMORY_H_

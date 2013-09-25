@@ -47,10 +47,17 @@ Memory::Memory(QWidget* parent) : QWidget(parent) {
 }
 
 void Memory::start() {
-  number->setText(nod->currentText());
-  QTextStream out(stdout);
-  out << nod->currentText() << endl;
+  n = nod->itemData(nod->currentIndex()).toInt();
+  d = delay->itemData(delay->currentIndex()).toInt();
+  showNumber();
+}
 
-  startTimer(1000);
+void Memory::showNumber() {
+  QString t;
+  for (int i = 0; i < n; i++) {
+    char c = '0' + rand() % 10;
+    t.append(c);
+  }
+  number->setText(t);
 }
 
