@@ -13,7 +13,7 @@
 #include <QLabel>
 
 #define MIN_NOD 4
-#define MAX_NOD 10
+#define MAX_NOD 12
 #define MIN_DELAY 1
 #define MAX_DELAY 15
 
@@ -22,24 +22,32 @@ class Memory : public QWidget {
 
   public:
     explicit Memory(QWidget* parent = 0);
+    void showNumber();
+    void showBlank();
 
   public slots:
     void start();
-    void showNumber();
 
   protected:
     void timerEvent(QTimerEvent *e);
 
   private:
-    QComboBox* nod;
-    QComboBox* delay;
+    QComboBox* nodbox;
+    QComboBox* disbox;
+    QComboBox* intbox;
+    QComboBox* repbox;
     QPushButton* button;
     QLabel* number;
 
-    int n;
-    int d;
+    int nod;
+    int dt;
+    int it;
+    int rep;
     bool started;
+
     int tid;
+    int tc;
+    int rc;
 };
 
 #endif  // MEMORY_H_

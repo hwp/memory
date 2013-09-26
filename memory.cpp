@@ -16,15 +16,25 @@ Memory::Memory(QWidget* parent)
   resize(600, 400);
   setWindowTitle("Memory Trainer");
 
-  nod = new QComboBox();
+  nodbox = new QComboBox();
   for (int i = MIN_NOD; i <= MAX_NOD; i++) {
-    nod->addItem(QString("%1").arg(i), i);
+    nodbox->addItem(QString("%1").arg(i), i);
   }
 
-  delay = new QComboBox();
+  disbox = new QComboBox();
   for (int i = MIN_DELAY; i <= MAX_DELAY; i++) {
-    delay->addItem(QString("%1").arg(i), i);
+    disbox->addItem(QString("%1").arg(i), i);
   }
+
+  intbox = new QComboBox();
+  for (int i = MIN_DELAY; i <= MAX_DELAY; i++) {
+    intbox->addItem(QString("%1").arg(i), i);
+  }
+
+  repbox = new QComboBox();
+  repbox->addItem(QString("%1").arg(10), 10);
+  repbox->addItem(QString("%1").arg(20), 20);
+  repbox->addItem(QString("%1").arg(30), 30);
 
   button = new QPushButton("&Start", this);
   number = new QLabel("Press button to start");
@@ -36,11 +46,15 @@ Memory::Memory(QWidget* parent)
   QGridLayout* grid = new QGridLayout(this);
 
   grid->addWidget(new QLabel("Number of Digits:"), 0, 0);
-  grid->addWidget(nod, 0, 1);
-  grid->addWidget(new QLabel("Time Delay (s):"), 0, 2);
-  grid->addWidget(delay, 0, 3);
-  grid->addWidget(button, 0, 4);
-  grid->addWidget(number, 1, 0, 3, 5);
+  grid->addWidget(nodbox, 0, 1);
+  grid->addWidget(new QLabel("Replications:"), 0, 2);
+  grid->addWidget(repbox, 0, 3);
+  grid->addWidget(new QLabel("Display Time (s):"), 1, 0);
+  grid->addWidget(disbox, 1, 1);
+  grid->addWidget(new QLabel("Blank Time (s):"), 1, 2);
+  grid->addWidget(intbox, 1, 3);
+  grid->addWidget(button, 0, 4, 2, 1);
+  grid->addWidget(number, 2, 0, 3, 5);
 
   setLayout(grid);
 
@@ -49,10 +63,13 @@ Memory::Memory(QWidget* parent)
 
 void Memory::start() {
   if (!started) {
-    n = nod->itemData(nod->currentIndex()).toInt();
-    d = delay->itemData(delay->currentIndex()).toInt();
-    tid = startTimer(d * 1000);
-    timerEvent(NULL);
+    nod = nodbox->itemData(nodbox->currentIndex()).toInt();
+    dt = disbox->itemData(disbox->currentIndex()).toInt();
+    it = intbox->itemData(intbox->currentIndex()).toInt();
+    rep = repbox->itemData(repbox->currentIndex()).toInt();
+    rc = 0;
+    tc = 0;
+    tid = startTimer(1000);
     button->setText("&Stop");
   }
   else {
@@ -64,15 +81,31 @@ void Memory::start() {
 
 void Memory::showNumber() {
   QString t;
-  for (int i = 0; i < n; i++) {
+  for (int i = 0; i < nod; i++) {
     char c = '0' + rand() % 10;
     t.append(c);
   }
   number->setText(t);
 }
 
+void Memory::showBlank() {
+  number->setText("");
+}
+
 void Memory::timerEvent(QTimerEvent *e) {
-    Q_UNUSED(e);
+  Q_UNUSED(e);
+
+  if (tc == 0) {
+    rc++;
+    if (rc == rep) {
+      start();
+      return;
+    }
     showNumber();
+  }
+  else if (tc == dt) {
+    showBlank();
+  }
+  tc = (tc + 1) % (dt + it);
 }
 
