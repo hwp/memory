@@ -7,7 +7,6 @@
 #include <QGridLayout>
 #include <QFont>
 #include <QApplication>
-#include <QTextStream>
 #include <QTextEdit>
 
 #include "memory.h"
