@@ -8,6 +8,7 @@
 #include <QFont>
 #include <QApplication>
 #include <QTextStream>
+#include <QTextEdit>
 
 #include "memory.h"
 
@@ -69,12 +70,14 @@ void Memory::start() {
     rep = repbox->itemData(repbox->currentIndex()).toInt();
     rc = 0;
     tc = 0;
-    tid = startTimer(1000);
+    history.clear();
     button->setText("&Stop");
+    tid = startTimer(1000);
   }
   else {
     killTimer(tid);
     button->setText("&Start");
+    showHistory();
   }
   started = !started;
 }
@@ -85,11 +88,27 @@ void Memory::showNumber() {
     char c = '0' + rand() % 10;
     t.append(c);
   }
+  history.push_back(t);
   number->setText(t);
 }
 
 void Memory::showBlank() {
   number->setText("");
+}
+
+void Memory::showHistory() {
+  QWidget* popup = new QWidget();
+
+  QGridLayout* grid = new QGridLayout(popup);
+  QTextEdit *edit = new QTextEdit(this);
+  grid->addWidget(edit, 0, 0);
+  popup->setLayout(grid);
+
+  foreach(QString h, history) {
+    edit->append(h); 
+  }
+
+  popup->show();
 }
 
 void Memory::timerEvent(QTimerEvent *e) {

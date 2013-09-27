@@ -11,6 +11,7 @@
 #include <QComboBox>
 #include <QPushButton>
 #include <QLabel>
+#include <QList>
 
 #define MIN_NOD 4
 #define MAX_NOD 12
@@ -24,6 +25,7 @@ class Memory : public QWidget {
     explicit Memory(QWidget* parent = 0);
     void showNumber();
     void showBlank();
+    void showHistory();
 
   public slots:
     void start();
@@ -48,6 +50,8 @@ class Memory : public QWidget {
     int tid;
     int tc;
     int rc;
+
+    QList<QString> history;
 };
 
 #endif  // MEMORY_H_
