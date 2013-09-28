@@ -100,6 +100,9 @@ void Memory::showHistory() {
 
   QGridLayout* grid = new QGridLayout(popup);
   QTextEdit *edit = new QTextEdit(this);
+  QFont f;
+  f.setPointSize(24);
+  edit->setFont(f);
   grid->addWidget(edit, 0, 0);
   popup->setLayout(grid);
 
